@@ -1,0 +1,15 @@
+import SignComponent from './sign-component'
+import Bird from './sign2-component'
+import Header from './header'
+import Footer from './footer'
+import Menu from './menu'
+import TeacherTable from './teacher-table'
+import TeacherModal from './teacher-modal'
+import StudentModal from './student-modal'
+import StudentTable from './student-table'
+import CourseTable from './course-table'
+import CourseModal from './course-modal'
+import GroupTable from './group-table'
+import GroupModal from './group-modal'
+
+export { SignComponent, Bird, Header, Footer, Menu, TeacherTable, TeacherModal, StudentModal, StudentTable, CourseTable, CourseModal, GroupTable, GroupModal }

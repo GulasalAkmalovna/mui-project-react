@@ -1,0 +1,80 @@
+{
+  "students": [
+    {
+      "id": "1",
+      "name": "Steve Browne",
+      "phone": "+1 833 343 54 23",
+      "group": "React Js Bootcamp N11",
+      "teacher": "John",
+      "address": "Yunusobod 13-mavze"
+    },
+    {
+      "id": "4fc2",
+      "course": "Standart Frontend",
+      "group": "Angular JS Standart N13",
+      "name": "gulasal",
+      "address": "tashkent w",
+      "age": "99",
+      "phone": "987654678",
+      "teacher": "John"
+    }
+  ],
+  "teachers": [
+    {
+      "id": "456789",
+      "name": "John",
+      "course": "Frontend"
+    },
+    {
+      "id": "09f3",
+      "course": "Standart Frontend",
+      "name": "gulasal"
+    },
+    {
+      "id": "92cb",
+      "course": "Standart Frontend",
+      "name": "john"
+    },
+    {
+      "id": "d3eb",
+      "course": "Standart Frontend",
+      "name": "admin"
+    }
+  ],
+  "course": [
+    {
+      "id": "23456",
+      "name": "Standart Frontend",
+      "duration": "8 oy",
+      "price": "150$"
+    },
+    {
+      "id": "1484",
+      "name": "Grafik dizayner",
+      "duration": "7",
+      "price": "2000000"
+    }
+  ],
+  "groups": [
+    {
+      "id": "11223",
+      "name": "React JS Bootcamp N11",
+      "course": "Frontend"
+    },
+    {
+      "id": "920c",
+      "course": "Standart Frontend",
+      "name": "john"
+    },
+    {
+      "id": "a284",
+      "course": "Standart Frontend",
+      "name": "n24"
+    },
+    {
+      "id": "47f9",
+      "course": "Standart Frontend",
+      "name": "n24"
+    }
+  ]
+}
