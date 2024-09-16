@@ -8,6 +8,7 @@ import Group from './group'
 import Course from './course'
 import Payments from './payments'
 import Attendance from './attendance'
+import SingleStudent from './single-page'
 
 
-export { Auth, AdminLayout, StudentLayout, Teachers, Students, Group, Course, Payments, Attendance, Auth2 }
+export { Auth, AdminLayout, StudentLayout, Teachers, Students, Group, Course, Payments, Attendance, Auth2, SingleStudent }

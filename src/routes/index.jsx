@@ -5,7 +5,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import App from "../App";
-import { Auth, Auth2, AdminLayout, StudentLayout, Teachers, Students, Group, Course, Payments, Attendance } from '@pages';
+import { Auth, Auth2, AdminLayout, StudentLayout, Teachers, Students, Group, Course, Payments, Attendance, SingleStudent } from '@pages';
 
 
 const Index = () => {
@@ -18,10 +18,12 @@ const Index = () => {
                 <Route path="admin-layout" element={<AdminLayout />}>
                     <Route index element={< Teachers />} />
                     <Route path="student" element={< Students />} />
+                    <Route path="student/single-student" element={< SingleStudent />} />
                 </Route>
                 {/* Student - layout */}
                 <Route path="student-layout" element={<StudentLayout />}>
                     <Route index element={< Students />} />
+                    <Route path="single-student" element={< SingleStudent />} />
                     <Route path="group" element={< Group />} />
                     <Route path="course" element={< Course />} />
                     <Route path="payments" element={< Payments />} />

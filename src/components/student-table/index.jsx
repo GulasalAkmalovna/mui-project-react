@@ -1,3 +1,4 @@
+import { AiFillEye } from "react-icons/ai";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -13,6 +14,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { StudentModal } from "@components";
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -47,6 +50,7 @@ const handleDelet = (id) => {
 
 
 export default function CustomizedTables({ data }) {
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const [course, setCourse] = useState([])
     const [group, setGroup] = useState([])
@@ -82,6 +86,11 @@ export default function CustomizedTables({ data }) {
         setOpen(false)
     }
 
+    const handleSinglePage = (id) => {
+        console.log(id)
+        navigate("/admin-layout/student/single-student")
+
+    }
     return (
         <TableContainer component={Paper}>
             <StudentModal open={open} handleClose={handleClose} course={course} teacher={teacher} group={group} update={update} />
@@ -115,6 +124,7 @@ export default function CustomizedTables({ data }) {
                                 <Button onClick={() => handleEdit(row)} sx={{ marginLeft: '6px', backgroundColor: 'orange', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<FiEdit />}>
                                     Edit
                                 </Button>
+                                <Button onClick={() => handleSinglePage(row.id)} variant="contained" sx={{ backgroundColor: "purple", fontSize: "22px", marginLeft: "5px" }}> <span ><AiFillEye /></span> </Button>
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
