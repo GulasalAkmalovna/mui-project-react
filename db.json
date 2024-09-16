@@ -1,80 +1,83 @@
 {
   "students": [
     {
-      "id": "1",
+      "course": "Backend",
+      "group": "Bootcamp N10",
       "name": "Steve Browne",
+      "address": "Yunusobod 13-mavze",
+      "age": "25",
       "phone": "+1 833 343 54 23",
-      "group": "React Js Bootcamp N11",
-      "teacher": "John",
-      "address": "Yunusobod 13-mavze"
+      "teacher": "Bootcamp N10",
+      "id": "1"
     },
     {
-      "id": "4fc2",
       "course": "Standart Frontend",
-      "group": "Angular JS Standart N13",
-      "name": "gulasal",
+      "group": "Bootcamp N10",
+      "name": "steve jobs",
       "address": "tashkent w",
       "age": "99",
       "phone": "987654678",
-      "teacher": "John"
+      "teacher": "Bootcamp N10",
+      "id": "4fc2"
     }
   ],
   "teachers": [
     {
-      "id": "456789",
-      "name": "John",
-      "course": "Frontend"
+      "course": "Backend",
+      "name": "jnckjdsn",
+      "id": "456789"
     },
     {
-      "id": "09f3",
+      "id": "4bd5",
       "course": "Standart Frontend",
-      "name": "gulasal"
+      "name": "Arslonbek"
     },
     {
-      "id": "92cb",
-      "course": "Standart Frontend",
-      "name": "john"
+      "id": "a600",
+      "course": "Frontend",
+      "name": "John"
     },
     {
-      "id": "d3eb",
-      "course": "Standart Frontend",
-      "name": "admin"
+      "id": "a246",
+      "course": "Frontend",
+      "name": "John"
     }
   ],
   "course": [
     {
-      "id": "23456",
-      "name": "Standart Frontend",
-      "duration": "8 oy",
-      "price": "150$"
+      "name": "Frontend",
+      "duration": "8",
+      "price": "250$",
+      "id": "23456"
     },
     {
-      "id": "1484",
-      "name": "Grafik dizayner",
+      "id": "ebb8",
+      "name": "Backend",
       "duration": "7",
-      "price": "2000000"
+      "price": "67890"
+    },
+    {
+      "id": "bf8d",
+      "name": "Node js",
+      "duration": "8",
+      "price": "22345"
     }
   ],
   "groups": [
     {
-      "id": "11223",
+      "course": "Frontend",
       "name": "React JS Bootcamp N11",
-      "course": "Frontend"
+      "id": "11223"
     },
     {
-      "id": "920c",
+      "id": "f857",
       "course": "Standart Frontend",
-      "name": "john"
+      "name": "Bootcamp N10"
     },
     {
-      "id": "a284",
-      "course": "Standart Frontend",
-      "name": "n24"
-    },
-    {
-      "id": "47f9",
-      "course": "Standart Frontend",
-      "name": "n24"
+      "id": "14cb",
+      "course": "Node js",
+      "name": "Standart Node js N12"
     }
   ]
 }

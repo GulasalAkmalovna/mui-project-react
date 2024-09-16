@@ -77,12 +77,16 @@ export default function Index() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
-                </MenuItem>
+                <NavLink to="/admin-layout">
+                    <MenuItem onClick={handleClose}>
+                        <Avatar /> Profile
+                    </MenuItem>
+                </NavLink>
+                <NavLink to='/student-layout'>
+                    <MenuItem onClick={handleClose}>
+                        <Avatar /> My account
+                    </MenuItem>
+                </NavLink>
                 <Divider />
                 <MenuItem onClick={handleClose}>
                     <ListItemIcon>

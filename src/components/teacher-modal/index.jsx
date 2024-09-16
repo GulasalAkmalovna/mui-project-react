@@ -7,6 +7,10 @@ import Typography from '@mui/material/Typography';
 import { FormControl, MenuItem, Select, TextField, InputLabel } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from "yup"
+import { teacherValidationScheme } from '../../utils/validation';
+
 
 const style = {
     position: 'absolute',
@@ -20,21 +24,30 @@ const style = {
     p: 4,
 };
 
-export default function KeepMountedModal({ handleClose, open, course }) {
-    const [form, setForm] = useState({})
+export default function KeepMountedModal({ handleClose, open, course, update }) {
+    // const [form, setForm] = useState({})
 
-    const handleChange = (event) => {
-        const { name, value } = event.target
-        setForm({ ...form, [name]: value })
+    const initialValues = {
+        course: update?.course || "",
+        name: update?.name || ""
     }
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const res = await axios.post("http://localhost:8000/teachers", form)
-        } catch (error) {
-            console.log(error)
+    const handleSubmit = async (values) => {
+        if (!update.id) {
+            try {
+                const res = await axios.post("http://localhost:8000/teachers", values)
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            try {
+                const res = await axios.put(`http://localhost:8000/teachers/${update?.id}`, values)
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
         }
-        window.location.reload()
+
     }
     return (
         <div>
@@ -47,24 +60,51 @@ export default function KeepMountedModal({ handleClose, open, course }) {
                 aria-describedby="keep-mounted-modal-description"
             >
                 <Box sx={style}>
-                    <FormControl fullWidth form="modal-btn" className="flex flex-col gap-4">
-                        <InputLabel id="demo-simple-select-label">Course</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            name="course"
-                            label='Course'
-                            onChange={handleChange}
-                        >
-                            {
-                                course.map((item, index) => {
-                                    return <MenuItem value={item.name} key={index}>{item.name}</MenuItem>
-                                })
-                            }
-                        </Select>
-                        <TextField fullWidth label="Name" name="name" onChange={handleChange} />
-                        <Button variant="contained" color="success" onClick={handleSubmit} id="modal-btn">Save</Button>
-                    </FormControl>
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={teacherValidationScheme}
+                        onSubmit={handleSubmit}
+                        enableReinitialize
+                    >
+                        <Form >
+                            <FormControl fullWidth margin="normal">
+                                <InputLabel id="course">Course</InputLabel>
+                                <Field
+                                    name="course"
+                                    as={Select}
+                                    label="Course"
+                                >
+                                    {course?.map((item, index) => (
+                                        <MenuItem value={item.name} key={index}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </Field>
+                                <ErrorMessage
+                                    name="course"
+                                    component="p"
+                                    className="text-red-800 text-[16px]"
+                                />
+                            </FormControl>
+                            <Field
+                                name="name"
+                                type="text"
+                                label="Name"
+                                variant="outlined"
+                                as={TextField}
+                                fullWidth
+                                margin="normal"
+                                helperText={
+                                    <ErrorMessage
+                                        name="name"
+                                        component="p"
+                                        className="text-red-800 text-[16px]"
+                                    />
+                                }
+                            />
+                            <Button variant="contained" color="success" type="submit" >Save</Button>
+                        </Form>
+                    </Formik>
                 </Box>
             </Modal>
         </div>

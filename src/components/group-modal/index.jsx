@@ -2,10 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { useState } from 'react';
 import axios from 'axios';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { groupValidationScheme } from '../../utils/validation';
 
 const style = {
     position: 'absolute',
@@ -19,24 +19,30 @@ const style = {
     p: 4,
 };
 
-export default function KeepMountedModal({ handleClose, open, course }) {
-    const [form, setFrom] = useState({});
+export default function KeepMountedModal({ handleClose, open, course, update }) {
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFrom({ ...form, [name]: value });
-    };
+    const initialValues = {
+        course: update?.course || "",
+        name: update?.name || ""
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        console.log(form)
-        try {
-            const res = await axios.post("http://localhost:8000/groups", form)
-            handleClose()
-        } catch (error) {
-            console.log(error)
+    const handleSubmit = async (values) => {
+        if (!update.id) {
+            try {
+                const res = await axios.post("http://localhost:8000/groups", values)
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            try {
+                const res = await axios.put(`http://localhost:8000/groups/${update?.id}`, values)
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
         }
-        window.location.reload()
+
     };
 
     return (
@@ -49,39 +55,57 @@ export default function KeepMountedModal({ handleClose, open, course }) {
                 aria-describedby="keep-mounted-modal-description"
             >
                 <Box sx={style}>
-                    <FormControl form="group-btn" fullWidth className="flex flex-col gap-3">
-                        <InputLabel id="couse">Course</InputLabel>
-                        <Select
-                            labelId="course"
-                            id="course"
-                            name="course"
-                            label="Course"
-                            onChange={handleChange}
-                        >
-                            {course?.map((item, index) => {
-                                return (
-                                    <MenuItem key={index} value={item?.name}>
-                                        {item?.name}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                        <TextField
-                            fullWidth
-                            label="Group Name"
-                            id="fullWidth"
-                            name="name"
-                            onChange={handleChange}
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSubmit}
-                            id='group-btn'
-                        >
-                            Save
-                        </Button>
-                    </FormControl>
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={groupValidationScheme}
+                        onSubmit={handleSubmit}
+                        enableReinitialize
+                    >
+                        <Form className='flex flex-col gap-2'>
+                            <FormControl fullWidth>
+                                <InputLabel id="couse">Course</InputLabel>
+                                <Field
+                                    name="course"
+                                    as={Select}
+                                    label="course"
+                                >
+                                    {course?.map((item, index) => (
+                                        <MenuItem value={item.name} key={index}>
+                                            {item.name}
+                                        </MenuItem>
+                                    ))}
+                                </Field>
+                                <ErrorMessage
+                                    name="course"
+                                    component="p"
+                                    className="text-red-800 text-[16px]"
+                                />
+                            </FormControl>
+                            <Field
+                                name="name"
+                                type="text"
+                                label="Name"
+                                variant="outlined"
+                                as={TextField}
+                                fullWidth
+                                margin="normal"
+                                helperText={
+                                    <ErrorMessage
+                                        name="name"
+                                        component="p"
+                                        className="text-red-800 text-[16px]"
+                                    />
+                                }
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                type='submit'
+                            >
+                                Save
+                            </Button>
+                        </Form>
+                    </Formik>
                 </Box>
             </Modal>
         </div>

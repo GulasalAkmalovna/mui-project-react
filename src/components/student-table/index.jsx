@@ -10,6 +10,10 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { FiEdit } from 'react-icons/fi';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
+import { StudentModal } from "@components";
+import { useState } from 'react';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -31,21 +35,56 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+const handleDelet = (id) => {
+    try {
+        axios.delete(`http://localhost:8000/students/${id}`)
+        window.location.reload()
+    } catch (error) {
+        console.log(error)
+    }
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
 
 export default function CustomizedTables({ data }) {
+    const [open, setOpen] = useState(false)
+    const [course, setCourse] = useState([])
+    const [group, setGroup] = useState([])
+    const [teacher, setTEacher] = useState([])
+    const [update, setUpdate] = useState({})
+
+    const handleEdit = async (item) => {
+        console.log(item)
+        try {
+            const res = await axios.get(`http://localhost:8000/course`)
+            setCourse(res?.data)
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            const res = await axios.get(`http://localhost:8000/groups`)
+            setGroup(res?.data)
+        } catch (error) {
+            console.log(error)
+        }
+        try {
+            const res = await axios.get(`http://localhost:8000/groups`)
+            setTEacher(res?.data)
+        } catch (error) {
+            console.log(error)
+        }
+        setUpdate(item)
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
     return (
         <TableContainer component={Paper}>
+            <StudentModal open={open} handleClose={handleClose} course={course} teacher={teacher} group={group} update={update} />
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
@@ -70,10 +109,10 @@ export default function CustomizedTables({ data }) {
                             <StyledTableCell align="right">{row.address}</StyledTableCell>
                             <StyledTableCell align="right">{row.phone}</StyledTableCell>
                             <StyledTableCell align="right">
-                                <Button sx={{ marginLeft: '6px', backgroundColor: 'red', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<DeleteIcon />}>
+                                <Button onClick={() => handleDelet(row.id)} sx={{ marginLeft: '6px', backgroundColor: 'red', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<DeleteIcon />}>
                                     Delete
                                 </Button>
-                                <Button sx={{ marginLeft: '6px', backgroundColor: 'orange', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<FiEdit />}>
+                                <Button onClick={() => handleEdit(row)} sx={{ marginLeft: '6px', backgroundColor: 'orange', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<FiEdit />}>
                                     Edit
                                 </Button>
                             </StyledTableCell>

@@ -10,6 +10,10 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { FiEdit } from 'react-icons/fi';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
+import { useState } from 'react';
+import { CourseModal } from '@components';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -31,15 +35,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+const handleDelete = (id) => {
+    console.log(id)
+    try {
+        axios.delete(`http://localhost:8000/course/${id}`)
+        window.location.reload()
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
-
 export default function CustomizedTables({ data }) {
+    const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState({})
+
+
+    const handleEdit = async (item) => {
+        console.log(item)
+        setUpdate(item)
+        setOpen(true)
+    }
+    const handleClose = () => {
+        setOpen(false)
+    }
+
     return (
         <TableContainer component={Paper}>
+            <CourseModal open={open} handleClose={handleClose} update={update} />
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
@@ -60,10 +83,12 @@ export default function CustomizedTables({ data }) {
                             <StyledTableCell align="=center">{row.duration}</StyledTableCell>
                             <StyledTableCell align="center">{row.price}</StyledTableCell>
                             <StyledTableCell align="center">
-                                <Button sx={{ marginLeft: '6px', backgroundColor: 'red', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<DeleteIcon />}>
+                                <Button onClick={() => handleDelete(row.id)}
+                                    sx={{ marginLeft: '6px', backgroundColor: 'red', color: '#fff', fontWeight: '900', border: 'none' }}
+                                    variant="outlined" startIcon={<DeleteIcon />}>
                                     Delete
                                 </Button>
-                                <Button sx={{ marginLeft: '6px', backgroundColor: 'orange', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<FiEdit />}>
+                                <Button onClick={() => handleEdit(row)} sx={{ marginLeft: '6px', backgroundColor: 'orange', color: '#fff', fontWeight: '900', border: 'none' }} variant="outlined" startIcon={<FiEdit />}>
                                     Edit
                                 </Button>
                             </StyledTableCell>

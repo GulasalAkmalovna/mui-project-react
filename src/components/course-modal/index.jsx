@@ -5,7 +5,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import axios from 'axios';
-import { FormControl, TextField } from '@mui/material';
+import { FormControl, TextField, duration } from '@mui/material';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { courseValidationScheme } from '../../utils/validation';
 
 const style = {
     position: 'absolute',
@@ -19,23 +21,32 @@ const style = {
     p: 4,
 };
 
-export default function KeepMountedModal({ handleClose, open }) {
-    const [form, setForm] = useState({});
+export default function KeepMountedModal({ handleClose, open, update }) {
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setForm({ ...form, [name]: value });
-    };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const res = await axios.post("http://localhost:8000/course", form);
-            handleClose();
-        } catch (error) {
-            console.log(error);
+    const initialValues = {
+        name: update?.name || "",
+        duration: update?.name || "",
+        price: update?.price || ""
+    }
+
+    const handleSubmit = async (values) => {
+        if (!update.id) {
+            try {
+                const res = await axios.post("http://localhost:8000/course", values)
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            try {
+                const res = await axios.put(`http://localhost:8000/course/${update?.id}`, values)
+                window.location.reload()
+            } catch (error) {
+                console.log(error)
+            }
         }
-        window.location.reload()
+
     };
 
 
@@ -49,36 +60,68 @@ export default function KeepMountedModal({ handleClose, open }) {
                 aria-describedby="keep-mounted-modal-description"
             >
                 <Box sx={style}>
-                    <FormControl fullWidth className="flex flex-col gap-3">
-                        <TextField
-                            fullWidth
-                            label="Course Name"
-                            id="fullWidth"
-                            name="name"
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            fullWidth
-                            label="duration"
-                            id="fullWidth"
-                            name="duration"
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            fullWidth
-                            label="price"
-                            id="fullWidth"
-                            name="price"
-                            onChange={handleChange}
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSubmit}
-                        >
-                            Save
-                        </Button>
-                    </FormControl>
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={courseValidationScheme}
+                        onSubmit={handleSubmit}
+                        enableReinitialize
+
+                    >
+                        <Form className='flex flex-col gap-2'>
+                            <Field
+                                fullWidth
+                                label="Course Name"
+                                name="name"
+                                as={TextField}
+                                variant="outlined"
+                                helperText={
+                                    <ErrorMessage
+                                        name='name'
+                                        component='p'
+                                        className='text-red-500
+                                       text-[15px]'
+                                    />
+                                }
+                            />
+                            <Field
+                                fullWidth
+                                label="Duration"
+                                name="duration"
+                                as={TextField}
+                                variant="outlined"
+                                helperText={
+                                    <ErrorMessage
+                                        name='duration'
+                                        component='p'
+                                        className='text-red-500
+                                       text-[15px]'
+                                    />
+                                }
+                            />
+                            <Field
+                                fullWidth
+                                label="Price"
+                                name="price"
+                                as={TextField}
+                                variant="outlined"
+                                helperText={
+                                    <ErrorMessage
+                                        name='price'
+                                        component='p'
+                                        className='text-red-500
+                                       text-[15px]'
+                                    />
+                                }
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                type='submit'
+                            >
+                                Save
+                            </Button>
+                        </Form>
+                    </Formik>
                 </Box>
             </Modal>
         </div>

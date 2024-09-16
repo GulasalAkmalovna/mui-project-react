@@ -1,4 +1,5 @@
 import SignComponent from './sign-component'
+import SignUpComponent from './signup-component'
 import Bird from './sign2-component'
 import Header from './header'
 import Footer from './footer'
@@ -12,4 +13,4 @@ import CourseModal from './course-modal'
 import GroupTable from './group-table'
 import GroupModal from './group-modal'
 
-export { SignComponent, Bird, Header, Footer, Menu, TeacherTable, TeacherModal, StudentModal, StudentTable, CourseTable, CourseModal, GroupTable, GroupModal }
+export { SignComponent, SignUpComponent, Bird, Header, Footer, Menu, TeacherTable, TeacherModal, StudentModal, StudentTable, CourseTable, CourseModal, GroupTable, GroupModal }

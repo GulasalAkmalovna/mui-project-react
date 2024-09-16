@@ -11,7 +11,7 @@ import telegram from '../../images/telegram.svg'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { signInValidationSchema } from '../../utils/validation';
+import { signUpValidationSchema } from '../../utils/validation'
 import axios from 'axios';
 
 const Index = () => {
@@ -24,22 +24,26 @@ const Index = () => {
     // }
 
     const initialValues = {
+        first_name: "",
+        last_name: "",
         phone_number: "",
+        email: "",
         password: ""
     }
 
     // form submit bulganda ishlovchi funksiya
     const handleSubmit = async (values) => {
         console.log(values)
+
+        const res = await axios.post("https://texnoark.ilyosbekdev.uz/auth/user/sign-up", values)
+        if (res.status === 201) {
+            navigate("/")
+        }
         try {
-            const res = await axios.post("https://texnoark.ilyosbekdev.uz/auth/sign-in", values)
-            if (res.status === 201) {
-                navigate("/admin-layout")
-            }
+
         } catch (error) {
             console.log(error)
         }
-
     }
 
 
@@ -49,44 +53,85 @@ const Index = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                validationSchema={signInValidationSchema}
+                validationSchema={signUpValidationSchema}
                 className='w-full max-w-[900px] min-h-[500px] bg-[#c0cdff42] flex flex-col items-center p-[40px] gap-[26px] rounded-[20px] text-[]'
             >
-                <Form id='submitForm' className='w-full max-w-[900px] min-h-[500px] bg-[#c0cdff42] flex flex-col items-center p-[40px] gap-[26px] rounded-[20px] text-[]'>
-                    <Typography sx={{ color: "#00093C" }} variant="h4" gutterBottom > Sign In </Typography>
+                <Form id='submitForm' className='w-full max-w-[900px] min-h-[500px] bg-[#c0cdff42] flex flex-col items-center p-[40px] gap-[10px] rounded-[20px] text-[]'>
+                    <Typography sx={{ color: "#00093C" }} variant="h4" gutterBottom > Sign Up </Typography>
+                    <Field
+                        name="first_name"
+                        type="text"
+                        label="First name"
+                        variant="outlined"
+                        as={TextField}
+                        fullwidth
+                        helperText={
+                            <ErrorMessage
+                                name="first_name"
+                                component="p"
+                                className="text-red-800 text-[16px]"
+                            />
+                        }
+                    />
+                    <Field
+                        name="last_name"
+                        type="text"
+                        label="Last name"
+                        variant="outlined"
+                        as={TextField}
+                        fullwidth
+                        helperText={
+                            <ErrorMessage
+                                name="last_name"
+                                component="p"
+                                className="text-red-800 text-[16px]"
+                            />
+                        }
+                    />
                     <Field
                         name="phone_number"
                         type="text"
                         label="Phone number"
-                        as={TextField}
-                        fullWidth
                         variant="outlined"
+                        as={TextField}
+                        fullwidth
                         helperText={
                             <ErrorMessage
-                                name='phone_number'
-                                component='p'
-                                className='text-red-500
-                                 text-[15px]'
+                                name="phone_number"
+                                component="p"
+                                className="text-red-800 text-[16px]"
                             />
                         }
-
+                    />
+                    <Field
+                        name="email"
+                        type="email"
+                        label="Email"
+                        variant="outlined"
+                        as={TextField}
+                        fullwidth
+                        helperText={
+                            <ErrorMessage
+                                name="email"
+                                component="p"
+                                className="text-red-800 text-[16px]"
+                            />
+                        }
                     />
                     <Field
                         name="password"
                         type="password"
-                        label="Password"
-                        as={TextField}
-                        fullWidth
+                        label="password"
                         variant="outlined"
+                        as={TextField}
+                        fullwidth
                         helperText={
                             <ErrorMessage
-                                name='name'
-                                component='p'
-                                className='text-red-500
-                                 text-[15px]'
+                                name="password"
+                                component="p"
+                                className="text-red-800 text-[16px]"
                             />
                         }
-
                     />
                     <div className='mt-[30px]'>
                         <Typography sx={{ color: "##000000", fontSize: "14px", marginLeft: "30px" }} variant="p" gutterBottom>  Login using social networks: </Typography>
